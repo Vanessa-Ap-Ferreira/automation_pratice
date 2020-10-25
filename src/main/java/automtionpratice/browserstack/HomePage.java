@@ -18,7 +18,10 @@ public class HomePage extends LoadableComponent<HomePage> {
 
 	WebDriver driver;
 	
-	@FindBy(css = "div[class='product-container']")
+	@FindBy(css = "#blockbestsellers > li > div")
+	private List<WebElement> bestSellerElements;
+	
+	@FindBy(css = "#homefeatured > li > div")
 	private List<WebElement> productElements;
 	
 	public HomePage(WebDriver _driver) {
@@ -34,12 +37,23 @@ public class HomePage extends LoadableComponent<HomePage> {
 				.stream()
 				.filter(byVisible)
 				.map(d -> {
-					System.out.println(new HomeProductItem(d));
 					return new HomeProductItem(d);
 				})
 				.collect(Collectors.toList());
 	}
 
+	public List<HomeProductItem> getBestsellerProducts() {
+		Predicate<WebElement> byVisible = product -> product.isDisplayed();
+
+		return bestSellerElements
+				.stream()
+				.filter(byVisible)
+				.map(d -> {
+					return new HomeProductItem(d);
+				})
+				.collect(Collectors.toList());
+	}
+	
 	@Override
 	protected void load() {
         Wait<WebDriver> wait = new WebDriverWait( driver, 3 );
@@ -49,6 +63,7 @@ public class HomePage extends LoadableComponent<HomePage> {
 
 	@Override
 	protected void isLoaded() throws Error {
+        driver.get("http://automationpractice.com/index.php");
 		// TODO Auto-generated method stub
 		
 	}

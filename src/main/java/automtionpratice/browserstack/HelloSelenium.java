@@ -14,11 +14,17 @@ public class HelloSelenium {
         WebDriver driver = new ChromeDriver(options);
         WebDriverWait wait = new WebDriverWait(driver, 3);
         try {
-            driver.get("http://automationpractice.com/index.php");
             HomePage homePage = new HomePage(driver);
+            System.out.println("List Featured productss");
             for (HomeProductItem productItem : homePage.getPopularProducts()) {
                 System.out.println(productItem);
             }
+
+            System.out.println("List Bestseller productss");
+            for (HomeProductItem productItem : homePage.getBestsellerProducts()) {
+                System.out.println(productItem);
+            }
+            
             
         } finally {
             driver.quit();
